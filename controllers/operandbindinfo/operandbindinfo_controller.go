@@ -324,6 +324,12 @@ func (r *Reconciler) copySecret(ctx context.Context, sourceName, targetName, sou
 			}
 
 			if needUpdate := util.CompareSecret(secretCopy, existingSecret); needUpdate {
+				klog.Infof("########need update secret###########")
+				klog.Infof("label in cluster: %v, in template: %v", secretCopy.GetLabels(), existingSecret.GetLabels())
+				klog.Infof("type in cluster: %v, in template: %v", secretCopy.Type, existingSecret.Type)
+				klog.Infof("data in cluster: %v, in template: %v", secretCopy.Data, existingSecret.Data)
+				klog.Infof("string_data in cluster: %v, in template: %v", secretCopy.StringData, existingSecret.StringData)
+				klog.Infof("owner reference in cluster: %v, in template: %v", secretCopy.GetOwnerReferences(), existingSecret.GetOwnerReferences())
 				podRefreshment = true
 				if err := r.Update(ctx, secretCopy); err != nil {
 					return false, errors.Wrapf(err, "failed to update secret %s/%s", targetNs, targetName)
@@ -333,6 +339,7 @@ func (r *Reconciler) copySecret(ctx context.Context, sourceName, targetName, sou
 			return false, errors.Wrapf(err, "failed to create secret %s/%s", targetNs, targetName)
 		}
 		if podRefreshment {
+			klog.Infof("refresh pod with secret %s/%s", targetNs, targetName)
 			if err := r.refreshPods(targetNs, targetName, "secret"); err != nil {
 				return false, errors.Wrapf(err, "failed to refresh pods mounting secret %s/%s", targetNs, targetName)
 			}
@@ -425,6 +432,11 @@ func (r *Reconciler) copyConfigmap(ctx context.Context, sourceName, targetName, 
 			}
 
 			if needUpdate := util.CompareConfigMap(cmCopy, existingCm); needUpdate {
+				klog.Infof("########need update configmap###########")
+				klog.Infof("label in cluster: %v, in template: %v", cmCopy.GetLabels(), existingCm.GetLabels())
+				klog.Infof("data in cluster: %v, in template: %v", cm.Data, existingCm.Data)
+				klog.Infof("string_data in cluster: %v, in template: %v", cmCopy.BinaryData, existingCm.BinaryData)
+				klog.Infof("owner reference in cluster: %v, in template: %v", cmCopy.GetOwnerReferences(), existingCm.GetOwnerReferences())
 				podRefreshment = true
 				if err := r.Update(ctx, cmCopy); err != nil {
 					return false, errors.Wrapf(err, "failed to update ConfigMap %s/%s", targetNs, sourceName)
@@ -436,6 +448,7 @@ func (r *Reconciler) copyConfigmap(ctx context.Context, sourceName, targetName, 
 	}
 
 	if podRefreshment {
+		klog.Infof("refresh pod with comfigmap %s/%s", targetNs, targetName)
 		if err := r.refreshPods(targetNs, targetName, "configmap"); err != nil {
 			return false, errors.Wrapf(err, "failed to refresh pods mounting ConfigMap %s/%s", targetNs, targetName)
 		}
