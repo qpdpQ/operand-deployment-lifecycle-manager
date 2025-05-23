@@ -30,6 +30,7 @@ import (
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
@@ -37,7 +38,6 @@ import (
 	nssv1 "github.com/IBM/ibm-namespace-scope-operator/api/v1"
 
 	operatorv1alpha1 "github.com/IBM/operand-deployment-lifecycle-manager/v4/api/v1alpha1"
-	"github.com/IBM/operand-deployment-lifecycle-manager/v4/controllers/k8sutil"
 	"github.com/IBM/operand-deployment-lifecycle-manager/v4/controllers/namespacescope"
 	"github.com/IBM/operand-deployment-lifecycle-manager/v4/controllers/operandbindinfo"
 	"github.com/IBM/operand-deployment-lifecycle-manager/v4/controllers/operandconfig"
@@ -99,7 +99,7 @@ func main() {
 
 	isolatedModeEnable := true
 	operatorCheckerDisable := util.GetoperatorCheckerMode()
-	options = k8sutil.NewODLMCache(isolatedModeEnable, options)
+	options.NewCache = cache.Options{}
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), options)
 	if err != nil {
