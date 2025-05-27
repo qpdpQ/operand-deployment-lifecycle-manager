@@ -118,19 +118,24 @@ func main() {
 		managedCache = cache.Options{
 			ByObject: map[client.Object]cache.ByObject{
 				&corev1.Secret{}: {
-					Label: cacheWatchedLabelSelector,
+					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
+					Label:      cacheWatchedLabelSelector,
 				},
 				&corev1.ConfigMap{}: {
-					Label: cacheWatchedLabelSelector,
+					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
+					Label:      cacheWatchedLabelSelector,
 				},
 				&appsv1.Deployment{}: {
-					Label: cacheFreshLabelSelector,
+					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
+					Label:      cacheFreshLabelSelector,
 				},
 				&appsv1.DaemonSet{}: {
-					Label: cacheFreshLabelSelector,
+					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
+					Label:      cacheFreshLabelSelector,
 				},
 				&appsv1.StatefulSet{}: {
-					Label: cacheFreshLabelSelector,
+					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
+					Label:      cacheFreshLabelSelector,
 				},
 			},
 		}
