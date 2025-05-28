@@ -25,6 +25,8 @@ import (
 	olmv1 "github.com/operator-framework/api/pkg/operators/v1"
 	olmv1alpha1 "github.com/operator-framework/api/pkg/operators/v1alpha1"
 	operatorsv1 "github.com/operator-framework/operator-lifecycle-manager/pkg/package-server/apis/operators/v1"
+	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -118,52 +120,44 @@ func main() {
 		managedCache = cache.Options{
 			ByObject: map[client.Object]cache.ByObject{
 				&corev1.Secret{}: {
-					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
-					Label:      cacheWatchedLabelSelector,
+					Label: cacheWatchedLabelSelector,
 				},
 				&corev1.ConfigMap{}: {
-					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
-					Label:      cacheWatchedLabelSelector,
+					Label: cacheWatchedLabelSelector,
 				},
 				&appsv1.Deployment{}: {
-					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
-					Label:      cacheFreshLabelSelector,
+					Label: cacheFreshLabelSelector,
 				},
 				&appsv1.DaemonSet{}: {
-					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
-					Label:      cacheFreshLabelSelector,
+					Label: cacheFreshLabelSelector,
 				},
 				&appsv1.StatefulSet{}: {
-					Namespaces: map[string]cache.Config{metav1.NamespaceAll: {}},
-					Label:      cacheFreshLabelSelector,
+					Label: cacheFreshLabelSelector,
 				},
 			},
+			DefaultNamespaces: map[string]cache.Config{corev1.NamespaceAll: {}},
 		}
 	} else {
 		// cache resource in watchNamespaces
 		managedCache = cache.Options{
 			ByObject: map[client.Object]cache.ByObject{
 				&corev1.Secret{}: {
-					Namespaces: map[string]cache.Config{watchNamespace: {}},
-					Label:      cacheWatchedLabelSelector,
+					Label: cacheWatchedLabelSelector,
 				},
 				&corev1.ConfigMap{}: {
-					Namespaces: map[string]cache.Config{watchNamespace: {}},
-					Label:      cacheWatchedLabelSelector,
+					Label: cacheWatchedLabelSelector,
 				},
 				&appsv1.Deployment{}: {
-					Namespaces: map[string]cache.Config{watchNamespace: {}},
-					Label:      cacheFreshLabelSelector,
+					Label: cacheFreshLabelSelector,
 				},
 				&appsv1.DaemonSet{}: {
-					Namespaces: map[string]cache.Config{watchNamespace: {}},
-					Label:      cacheFreshLabelSelector,
+					Label: cacheFreshLabelSelector,
 				},
 				&appsv1.StatefulSet{}: {
-					Namespaces: map[string]cache.Config{watchNamespace: {}},
-					Label:      cacheFreshLabelSelector,
+					Label: cacheFreshLabelSelector,
 				},
 			},
+			DefaultNamespaces: map[string]cache.Config{watchNamespace: {}},
 		}
 	}
 
