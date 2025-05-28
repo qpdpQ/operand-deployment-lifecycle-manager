@@ -95,6 +95,7 @@ func retrieveOperandRequest(obj client.Object, ns string) error {
 
 // deleteOperandRequest is used to delete the OperandRequest
 func deleteOperandRequest(ctx context.Context, req *v1alpha1.OperandRequest) error {
+func deleteOperandRequest(ctx context.Context, req *v1alpha1.OperandRequest) error {
 	fmt.Println("--- DELETE: OperandRequest Instance")
 	// Delete OperandRequest instance
 	if err := k8sClient.Delete(context.TODO(), req); err != nil {

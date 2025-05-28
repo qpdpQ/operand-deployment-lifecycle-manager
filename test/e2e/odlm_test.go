@@ -33,6 +33,7 @@ var _ = Describe("Testing ODLM", func() {
 
 		It("Should operators and operands are managed", func() {
 			ctx := context.Background()
+			ctx := context.Background()
 			// Create OperandRegistry
 			By("Create OperandRegistry")
 			reg, err := createOperandRegistry(OperandRegistryNamespace, OperatorNamespace)
@@ -225,6 +226,7 @@ var _ = Describe("Testing ODLM", func() {
 			// Delete the second OperandRequest
 			By("Delete the second OperandRequest")
 			err = deleteOperandRequest(ctx, req2)
+			err = deleteOperandRequest(ctx, req2)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Check the status of the OperandRegistry")
@@ -234,6 +236,7 @@ var _ = Describe("Testing ODLM", func() {
 
 			// Delete the first OperandRequest
 			By("Delete the first OperandRequest")
+			err = deleteOperandRequest(ctx, req1)
 			err = deleteOperandRequest(ctx, req1)
 			Expect(err).ToNot(HaveOccurred())
 
@@ -267,6 +270,7 @@ var _ = Describe("Testing ODLM", func() {
 
 			// Delete the first OperandRequest
 			By("Delete the first OperandRequest")
+			err = deleteOperandRequest(ctx, req1)
 			err = deleteOperandRequest(ctx, req1)
 			Expect(err).ToNot(HaveOccurred())
 
