@@ -14,6 +14,11 @@ cpfs:
   imageRegistryNamespaceOperand: cpopen/cpfs
   labels:
 
+# Controls whether this Helm chart grants DaemonSet RBAC. When false, the
+# controller can still manage DaemonSets if permission is granted elsewhere.
+operandBindInfo:
+  grantDaemonSetRBAC: true
+
 # other configuration you think you might need for your operator
 # following are examples, not required:
 # operatorNamespace: ""
